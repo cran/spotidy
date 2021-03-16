@@ -1,0 +1,97 @@
+---
+title: "Connecting-with-the-Spotify-API"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Connecting-with-the-Spotify-API}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, eval = F}
+library(spotidy)
+```
+
+To make use of this **spotidy** package, you need to create an app at the developer.spotify.com website. For this, follow these steps:
+
+1. Browse to <https://developer.spotify.com/dashboard/applications>.
+
+2. Log in with your Spotify account.
+
+3. Click on 'Create an app'.
+
+4. Pick an 'App name' and 'App description' of your choice and mark the checkboxes.
+
+5. After creation, you see your 'Client Id' and you can click on 'Show client secret` to unhide your 'Client secret'.
+
+6. Use your 'Client id' and 'Client secret' to retrieve a token from the Spotify API. The function get_spotify_api_token() performs all necessary steps with your 'Client id' and 'Client secret' to retrieve a token. Consider to assign this character string to a variable named 'my_token', which is the default value for all spotidy functions that are in need of a token. 
+
+
+```{r get-token, eval = F}
+my_token <- get_spotify_api_token(client_id = "***", client_secret = "***")
+```
+
+A token expires after one hour, so be aware that above line needs to be rerun every hour.
+
+******
+**From then on, you should you be able to run below code:**
+```{r spotidy in practice code, eval = F}
+get_album_tracks("6JKkXVEljQJ1wKbRG5MywC")
+get_album_tracks("6JKkXVEljQJ1wKbRG5MywC", "raw")
+
+get_album("6JKkXVEljQJ1wKbRG5MywC")
+get_album("6JKkXVEljQJ1wKbRG5MywC", "raw")
+
+get_albums("6JKkXVEljQJ1wKbRG5MywC,01sfgrNbnnPUEyz6GZYlt9")
+get_albums("6JKkXVEljQJ1wKbRG5MywC,01sfgrNbnnPUEyz6GZYlt9", "raw")
+
+get_artist_albums("00FQb4jTyendYWaN8pK0wa")
+get_artist_albums("00FQb4jTyendYWaN8pK0wa", "raw")
+
+get_artist_top_tracks("73ZPfpfg1LBVvDEArK4l5B", "NL")
+get_artist_top_tracks("73ZPfpfg1LBVvDEArK4l5B", "NL", "raw")
+
+get_artist("05GsKvp0yKuCyWQMsPAAmB")
+get_artist("05GsKvp0yKuCyWQMsPAAmB", "raw")
+
+get_artists("05GsKvp0yKuCyWQMsPAAmB,73ZPfpfg1LBVvDEArK4l5B")
+get_artists("05GsKvp0yKuCyWQMsPAAmB,73ZPfpfg1LBVvDEArK4l5B", "raw")
+
+get_track_audio_features("0uQcP7QVoLvaFsORsdrgNh")
+get_track_audio_features("0uQcP7QVoLvaFsORsdrgNh", "raw")
+
+get_track("0uQcP7QVoLvaFsORsdrgNh")
+get_track("0uQcP7QVoLvaFsORsdrgNh", "raw")
+
+get_tracks_audio_features("0uQcP7QVoLvaFsORsdrgNh,5sNESr6pQfIhL3krM8CtZn")
+get_tracks_audio_features("0uQcP7QVoLvaFsORsdrgNh,5sNESr6pQfIhL3krM8CtZn", "raw")
+
+get_tracks("0uQcP7QVoLvaFsORsdrgNh,5sNESr6pQfIhL3krM8CtZn")
+get_tracks("0uQcP7QVoLvaFsORsdrgNh,5sNESr6pQfIhL3krM8CtZn", "raw")
+
+search_albums("Norman Fucking Rockwell!")
+search_albums("Norman Fucking Rockwell!", "id")
+search_albums("Norman Fucking Rockwell!", "raw")
+
+search_artists("Whitney Houston")
+search_artists("Whitney Houston", "id")
+search_artists("Whitney Houston", "raw")
+
+search_tracks("What a wonderful world")
+search_tracks("What a wonderful world", "id")
+search_tracks("What a wonderful world", "raw")
+```
+
+**You could combine the search and get functions in the following way:**
+```{r combining-search-and-get-examples, eval = F}
+get_artist_related_artists(search_artists("Ed Sheeran", "id", 1))
+get_album_tracks(search_albums("Blackstar", "id", 1))
+get_track_audio_features(search_tracks("Video killed the radio star", "id", 1)
+```
+
